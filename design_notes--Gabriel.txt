@@ -1,0 +1,40 @@
+
+GS
+2 Apr. 2020 
+
+Design notes on how to implement this program:
+
+From my notes here: https://github.com/ElectricRCAircraftGuy/Chrome-Case-Sensitive-Find/issues/1
+
+No good answers here: post an answer here when done: https://superuser.com/questions/192437/case-sensitive-searches-in-google-chrome
+
+Begin with this Javascript code: https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2
+
+Attach it to Chrome as a custom search engine, w/keyword `657search198` or something likely not going to be searched, like that. Now, when you type this into your browser and hit Enter, the Javascript code will run, popping up the search tool. Also, make a bookmark to the tool on your bookmark bar at the top so you can just click on it.
+
+Next, we want to attach it to a Windows/Mac/Linux shortcut key. Each OS is different on the matter, but I'll do it on Linux and attach it to a custom Python script called "chrome_find.py" or something. 
+
+It will press the necessary shortcut keys for me in Chrome to jump to the ominbar, then type in the search above to run the custom search engine which runs the custom javascript file. Therefore, the python script must type on your keyboard as follows: `Ctrl + l`, then `657search198`. 
+
+The total sequence will be `Ctrl + Alt + F` to have your OS call `chrome_find.py` which will type the shortcuts necessary to run the javascript code. 
+
+Start with the javascript code above, then fix it:
+
+1. add a `next` and `previous` button
+1. fix the bug where it only allows one search per refresh. It should auto-clear the old search when you do a new one.
+1. lime green is ok for the main highlight color, but on the right-hand bar, it should be darker
+
+I don't know anything about Javascript, so learn to code it here: 
+
+1. https://www.youtube.com/watch?v=w2z-HAf1qQk
+1. Set up Visual Studio Code
+1. Install node.js
+
+Getting Python to type key presses:
+
+1. Google search for "[python type key presses](https://www.google.com/search?sxsrf=ALeKk03s9XqnWo_2wsuYule9j7QR6V_Fhw%3A1585292365674&ei=TaR9Xq7nKISWtQX3yozQBQ&q=python+type+key+presses&oq=python+type+key+presses&gs_l=psy-ab.3..33i22i29i30l3.3396630.3397816..3397981...0.2..0.317.1471.0j8j0j1......0....1..gws-wiz.......0i71j35i39j0j0i22i30j0i22i10i30.hnL_8eAPYAA&ved=0ahUKEwjuwciiirroAhUES60KHXclA1oQ4dUDCAs&uact=5)"
+
+Note: a tool exists in Linux for typing keypresses too, called `xdotool`, but I'll try to rely on Python only since it's (hopefully in this case too) cross-platform.
+
+
+
