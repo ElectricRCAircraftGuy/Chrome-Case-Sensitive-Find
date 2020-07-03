@@ -9,8 +9,13 @@ Work in progress (WIP). Doesn't work yet.
 
 # Installation
 
-## Windows
+## 1. Do in Chrome first:
+1. Copy and paste all of the contents of **find.js** onto this webpage and choose the option to
 
-## Mac
+## 2. Do on your operating system below:
 
-## Linux
+### Windows
+
+### Mac
+
+### Linux
