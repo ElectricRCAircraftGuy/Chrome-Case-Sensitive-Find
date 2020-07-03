@@ -1,5 +1,24 @@
-// Copied & modified from: https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2
-// Use this tool to remove line breaks and paragraph breaks: https://www.textfixer.com/tools/remove-line-breaks.php
+javascript:
+
+/* 
+This file is part of Chrome-Case-Sensitive-Find: https://github.com/ElectricRCAircraftGuy/Chrome-Case-Sensitive-Find
+
+By Gabriel Staples
+www.ElectricRCAircraftGuy.com
+
+It was originally copied from here: https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2, but then I modified it.
+
+Optional: Use this tool to remove line breaks and paragraph breaks: https://www.textfixer.com/tools/remove-line-breaks.php
+
+References:
+1. https://superuser.com/questions/192437/case-sensitive-searches-in-google-chrome/582280#582280
+1. https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2
+1. [MY OWN ANS!] *****https://stackoverflow.com/questions/9731965/is-there-a-way-to-create-and-run-javascript-in-chrome/62710098#62710098
+1. Google search for "chrome javascript() in bookmark":
+   https://www.google.com/search?sxsrf=ALeKk01KeIlvVi9w4OpbXzFPDGl4_C34NQ%3A1593758422516&ei=1tL-XviLH8vKswXgh7uACA&q=chrome+javascript%28%29+in+bookmark&oq=chrome+javascript%28%29+in+bookmark&gs_lcp=CgZwc3ktYWIQAzIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjoECAAQRzoICCEQFhAdEB5Qu4ABWIWWAWDYlwFoAHABeACAAfkHiAHnJ5IBDzAuNS4yLjEuMS4wLjIuMZgBAKABAaoBB2d3cy13aXo&sclient=psy-ab&ved=0ahUKEwj4zoblvLDqAhVL5awKHeDDDoAQ4dUDCAw&uact=5
+1. https://helloacm.com/how-to-write-chrome-bookmark-scripts-step-by-step-tutorial-with-a-steemit-example/
+
+*/
 
 (function () {
 'use strict';
