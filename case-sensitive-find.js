@@ -26,7 +26,25 @@ References:
 
 */
 
-function caseSensitiveSearch()
+function clearEverything(spans, gutter, body) 
+{
+    for (var i = spans.length; i--;) 
+    {
+        for (var j = spans[i].childNodes.length; j--;) 
+        {
+            spans[i].parentNode.replaceChild(spans[i].childNodes[j], spans[i]);
+            spans[i] = null;
+        }
+    }
+
+    if (gutter) 
+    {
+        body.removeChild(gutter); 
+        gutter = null;
+    }
+}
+
+function caseSensitiveFind()
 {
     /* Use "strict mode" to write cleaner code; see: https://www.w3schools.com/js/js_strict.asp */
     "use strict";
@@ -46,25 +64,7 @@ function caseSensitiveSearch()
     var spans = document.getElementsByClassName('diakur-case-sensitive-serarch-finding');
     var gutter = document.getElementsByClassName('diakur-case-sensitive-serarch-gutter')[0];
 
-    function clearEverything() 
-    {
-        for (var i = spans.length; i--;) 
-        {
-            for (var j = spans[i].childNodes.length; j--;) 
-            {
-                spans[i].parentNode.replaceChild(spans[i].childNodes[j], spans[i]);
-                spans[i] = null;
-            }
-        }
-
-        if (gutter) 
-        {
-            body.removeChild(gutter); 
-            gutter = null;
-        }
-    }
-
-    clearEverything();
+    clearEverything(spans, gutter, body);
 
     if (text === null || text.length === 0) 
     { 
@@ -160,4 +160,4 @@ function caseSensitiveSearch()
     }
 }
 
-caseSensitiveSearch();
+caseSensitiveFind();
