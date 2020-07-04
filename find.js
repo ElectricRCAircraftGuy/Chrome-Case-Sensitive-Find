@@ -6,9 +6,15 @@ This file is part of Chrome-Case-Sensitive-Find: https://github.com/ElectricRCAi
 By Gabriel Staples
 www.ElectricRCAircraftGuy.com
 
-It was originally copied from here: https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2, but then I modified it.
+It was originally copied from here: https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2, but
+then I modified it.
 
-Optional: Use this tool to remove line breaks and paragraph breaks: https://www.textfixer.com/tools/remove-line-breaks.php
+Optional: Use this tool to remove line breaks and paragraph breaks: 
+          https://www.textfixer.com/tools/remove-line-breaks.php
+Update: not necessary! Just copy and paste the multi-line code right into the Chrome bookmark!
+
+NB: Only the C-style multi-line comments are allowed inside Javascript Chrome bookmarks, NOT the
+C++-style (`//`) ones!
 
 References:
 1. https://superuser.com/questions/192437/case-sensitive-searches-in-google-chrome/582280#582280
@@ -20,34 +26,50 @@ References:
 
 */
 
-(function () {
-'use strict';
+function caseSensitiveSearch()
+{
+    /* Use "strict mode" to write cleaner code; see: https://www.w3schools.com/js/js_strict.asp */
+    "use strict";
 
-    var body = document.body,
-        html = document.documentElement;
+    var body = document.body;
+    var html = document.documentElement;
 
-    var docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    var docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, 
+        html.scrollHeight, html.offsetHeight);
 
-    var findingColor = 'limegreen';
+    /* Colors: https://www.w3schools.com/tags/ref_colornames.asp
+    Ex: 'limegreen', 'yellow', etc. */
+    var highlightColor = 'rgb(255,255,0';
    
-    var text = window.prompt('Search:', '');
+    var text = window.prompt('Case-Sensitive Search:', 'search string');
     
     var spans = document.getElementsByClassName('diakur-case-sensitive-serarch-finding');
     var gutter = document.getElementsByClassName('diakur-case-sensitive-serarch-gutter')[0];
 
-    (function clearEverything() {
-        for (var i = spans.length; i--;) {
-            for (var j = spans[i].childNodes.length; j--;) {
+    function clearEverything() 
+    {
+        for (var i = spans.length; i--;) 
+        {
+            for (var j = spans[i].childNodes.length; j--;) 
+            {
                 spans[i].parentNode.replaceChild(spans[i].childNodes[j], spans[i]);
                 spans[i] = null;
             }
         }
-        if (gutter) {
-            body.removeChild(gutter); gutter = null;
-        }
-    })();
 
-    if (text === null || text.length === 0) { return; }
+        if (gutter) 
+        {
+            body.removeChild(gutter); 
+            gutter = null;
+        }
+    }
+
+    clearEverything();
+
+    if (text === null || text.length === 0) 
+    { 
+        return; 
+    }
 
     gutter = document.createElement('span');
     gutter.style.backgroundColor = 'rgba(105,105,105,0.75)';
@@ -60,24 +82,29 @@ References:
     gutter.setAttribute('class', 'diakur-case-sensitive-serarch-gutter');
     body.appendChild(gutter);
 
-    function getTopPos(el) {
-        for (var topPos = 0; el !== null;) {
+    function getTopPos(el) 
+    {
+        for (var topPos = 0; el !== null;) 
+        {
             topPos += el.offsetTop;
             el = el.offsetParent;
         }
         return topPos;
     }
 
-    function searchWithinNode(node, te, len) {
+    function searchWithinNode(node, te, len) 
+    {
         var pos, skip, spannode, middlebit, endbit, middleclone;
         skip = 0;
-        if (node.nodeType === 3) {
+        if (node.nodeType === 3) 
+        {
             pos = node.data.indexOf(te);
-            if (pos >= 0) {
+            if (pos >= 0) 
+            {
                 spannode = document.createElement('span');
                 spannode.setAttribute('data-title', node.data);
                 spannode.setAttribute('class', 'diakur-case-sensitive-serarch-finding');
-                spannode.style.backgroundColor = findingColor;
+                spannode.style.backgroundColor = highlightColor;
                 middlebit = node.splitText(pos);
                 endbit = middlebit.splitText(len);
                 middleclone = middlebit.cloneNode(true);
@@ -86,8 +113,12 @@ References:
                 spannode.setAttribute('data-top', getTopPos(spannode));
                 skip = 1;
             }
-        } else if (node.nodeType === 1 && node.childNodes && node.tagName.toLowerCase() !== 'script' && node.tagName.toLowerCase() !== 'style') {
-            for (var child = 0; child < node.childNodes.length; ++child) {
+        } 
+        else if (node.nodeType === 1 && node.childNodes && node.tagName.toLowerCase() !== 'script' 
+            && node.tagName.toLowerCase() !== 'style') 
+        {
+            for (var child = 0; child < node.childNodes.length; ++child) 
+            {
                 child = child + searchWithinNode(node.childNodes[child], te, len);
             }
         }
@@ -97,15 +128,18 @@ References:
 
     spans = document.getElementsByClassName('diakur-case-sensitive-serarch-finding');
 
-    var scrollToFinding = function () {
+    var scrollToFinding = function () 
+    {
         window.scroll(0, this.getAttribute('data-top'));
     };
-    for (var i = spans.length; i--;) {
+
+    for (var i = spans.length; i--;) 
+    {
         var finding = document.createElement('a');
         var top = getTopPos(spans[i]);
         finding.style.width = '100%';
         finding.style.height = '5px';
-        finding.style.backgroundColor = findingColor;
+        finding.style.backgroundColor = highlightColor;
         finding.style.cursor = 'pointer';
         finding.style.position = 'absolute';
         finding.style.left = 0;
@@ -116,9 +150,14 @@ References:
         gutter.appendChild(finding);
     }
 
-    if (spans[0]) {
+    if (spans[0]) 
+    {
         spans[0].scrollIntoView();
-    } else {
+    } 
+    else 
+    {
         body.removeChild(gutter); gutter = null;
     }
-})();
+}
+
+caseSensitiveSearch();
