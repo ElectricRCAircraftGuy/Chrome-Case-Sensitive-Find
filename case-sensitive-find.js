@@ -28,20 +28,43 @@ References:
 
 function clearEverything(spans, gutter, body) 
 {
-    for (var i = spans.length; i--;) 
+    /* debugging prints */
+    window.alert("spans = \"" + spans + "\"\n"
+        + "gutter = \"" + gutter + "\"\n"
+        + "body = \"" + body + "\"\n"
+        + "spans.length = " + spans.length + "\n"
+        /* + "spans[0].childNodes.length = " + spans[0].childNodes.length + "\n" */
+    ); 
+
+    /*
+    for (var i = 0; i < spans.length; i++) 
     {
-        for (var j = spans[i].childNodes.length; j--;) 
+        for (var j = 0; j < spans[i].childNodes.length; j++) 
         {
+            /* debugging 
+            window.alert("spans["+i+"].childNodes["+j+"].innerText = " + spans[i].childNodes[j].innerText);
+
             spans[i].parentNode.replaceChild(spans[i].childNodes[j], spans[i]);
             spans[i] = null;
         }
     }
+    */
 
     if (gutter) 
     {
         body.removeChild(gutter); 
         gutter = null;
     }
+}
+
+function getTopPos(element) 
+{
+    for (var topPos = 0; element !== null;) 
+    {
+        topPos += element.offsetTop;
+        element = element.offsetParent;
+    }
+    return topPos;
 }
 
 function caseSensitiveFind()
@@ -72,25 +95,18 @@ function caseSensitiveFind()
     }
 
     gutter = document.createElement('span');
-    gutter.style.backgroundColor = 'rgba(105,105,105,0.75)';
+    /* set the "text found bar"(gutter) color on right side; higher alpha values are more opaque */
+    gutter.style.backgroundColor = 'rgba(105,105,105,0.55)';
     gutter.style.position = 'fixed';
     gutter.style.right = 0;
     gutter.style.top = 0;
     gutter.style.width = '12px';
     gutter.style.height = '100%';
+    /* Use extremely high zIndex to ensure the gutter is always on top and visible. See: 
+    https://www.w3schools.com/jsref/prop_style_zindex.asp */
     gutter.style.zIndex = 1e6;
     gutter.setAttribute('class', 'diakur-case-sensitive-serarch-gutter');
     body.appendChild(gutter);
-
-    function getTopPos(el) 
-    {
-        for (var topPos = 0; el !== null;) 
-        {
-            topPos += el.offsetTop;
-            el = el.offsetParent;
-        }
-        return topPos;
-    }
 
     function searchWithinNode(node, te, len) 
     {
