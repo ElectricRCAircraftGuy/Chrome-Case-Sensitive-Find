@@ -6,8 +6,13 @@ This file is part of Chrome-Case-Sensitive-Find: https://github.com/ElectricRCAi
 By Gabriel Staples
 www.ElectricRCAircraftGuy.com
 
-It was originally copied from here: https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2, but
-then I modified it.
+I originally borrowed this script from Boris Diakur here: 
+https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2, and then I heavily modified it. Note 
+that Boris borrowed heavily from Paul Sweatte here: 
+https://superuser.com/questions/192437/case-sensitive-searches-in-google-chrome/582280#582280.
+Paul Sweatte originally demoed the Javascript bookmarklet and wrote the search code, and then
+Boris added a gutter to it to show where each word is found. I then cleaned it up and ________????
+______??? fixed some bugs to make it work better.
 
 Optional: Use this tool to remove line breaks and paragraph breaks: 
           https://www.textfixer.com/tools/remove-line-breaks.php
@@ -17,8 +22,10 @@ NB: Only the C-style multi-line comments are allowed inside Javascript Chrome bo
 C++-style (`//`) ones!
 
 References:
-1. https://superuser.com/questions/192437/case-sensitive-searches-in-google-chrome/582280#582280
-1. https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2
+1. Paul Sweatte's answer here:
+   https://superuser.com/questions/192437/case-sensitive-searches-in-google-chrome/582280#582280
+1. Boris Diakur's GitHub gist here:
+   https://gist.github.com/borisdiakur/9f9d751b4c9cf5acafa2
 1. [MY OWN ANS!] *****https://stackoverflow.com/questions/9731965/is-there-a-way-to-create-and-run-javascript-in-chrome/62710098#62710098
 1. Google search for "chrome javascript() in bookmark":
    https://www.google.com/search?sxsrf=ALeKk01KeIlvVi9w4OpbXzFPDGl4_C34NQ%3A1593758422516&ei=1tL-XviLH8vKswXgh7uACA&q=chrome+javascript%28%29+in+bookmark&oq=chrome+javascript%28%29+in+bookmark&gs_lcp=CgZwc3ktYWIQAzIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjoECAAQRzoICCEQFhAdEB5Qu4ABWIWWAWDYlwFoAHABeACAAfkHiAHnJ5IBDzAuNS4yLjEuMS4wLjIuMZgBAKABAaoBB2d3cy13aXo&sclient=psy-ab&ved=0ahUKEwj4zoblvLDqAhVL5awKHeDDDoAQ4dUDCAw&uact=5
@@ -57,14 +64,24 @@ function clearEverything(spans, gutter, body)
     }
 }
 
-function getTopPos(element) 
+/*
+Get the distance, in pixels, from the input `element` to the top of the window. See:
+1. https://www.w3schools.com/JSREF/prop_element_offsettop.asp
+1. https://www.w3schools.com/JSREF/prop_element_offsetparent.asp
+*/
+function getDistanceToTop(element)
 {
-    for (var topPos = 0; element !== null;) 
+    var totalDistToTopPixels = 0;
+    while (element !== null) 
     {
-        topPos += element.offsetTop;
+        /* NB: the `offsetTop` property is relative to the top of the offsetParent element, so we
+        must recursively move up to the next offsetParent and sum the total offset until no 
+        new offsetParent exists. */
+        totalDistToTopPixels += element.offsetTop;
         element = element.offsetParent;
     }
-    return topPos;
+
+    return totalDistToTopPixels;
 }
 
 function caseSensitiveFind()
@@ -126,7 +143,7 @@ function caseSensitiveFind()
                 middleclone = middlebit.cloneNode(true);
                 spannode.appendChild(middleclone);
                 middlebit.parentNode.replaceChild(spannode, middlebit);
-                spannode.setAttribute('data-top', getTopPos(spannode));
+                spannode.setAttribute('data-top', getDistanceToTop(spannode));
                 skip = 1;
             }
         } 
@@ -152,7 +169,7 @@ function caseSensitiveFind()
     for (var i = spans.length; i--;) 
     {
         var finding = document.createElement('a');
-        var top = getTopPos(spans[i]);
+        var top = getDistanceToTop(spans[i]);
         finding.style.width = '100%';
         finding.style.height = '5px';
         finding.style.backgroundColor = highlightColor;
