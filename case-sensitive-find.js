@@ -193,4 +193,5 @@ function caseSensitiveFind()
     }
 }
 
+/* Program entry point */
 caseSensitiveFind();
